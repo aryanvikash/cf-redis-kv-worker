@@ -33,11 +33,22 @@ function isAuthAllowed(token: string | null, env: WorkerEnv): boolean {
   return token === `Bearer ${env.AUTH_TOKEN}`
 }
 
+export function resolveRequestToken(request: Request): string | null {
+  const headerToken = request.headers.get('authorization')
+
+  if (headerToken) {
+    return headerToken
+  }
+
+  const queryToken = new URL(request.url).searchParams.get('token')
+  return queryToken ? `Bearer ${queryToken}` : null
+}
+
 export function createApp(): Hono<AppContext> {
   const app = new Hono<AppContext>()
 
   app.use('*', async (c, next) => {
-    if (!isAuthAllowed(c.req.header('authorization') ?? null, c.env)) {
+    if (!isAuthAllowed(resolveRequestToken(c.req.raw), c.env)) {
       return c.json({ error: 'Unauthorized' }, 401)
     }
 

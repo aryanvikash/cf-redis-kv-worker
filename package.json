@@ -8,10 +8,12 @@
     "deploy": "wrangler deploy",
     "test": "vitest run"
   },
+  "dependencies": {
+    "hono": "^4.8.3"
+  },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260402.0",
     "@types/node": "^24.0.0",
-    "hono": "^4.8.3",
     "typescript": "^5.8.3",
     "vitest": "^3.1.1",
     "wrangler": "^4.10.0"

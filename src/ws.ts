@@ -6,7 +6,7 @@ import type {
   WsRequestEnvelope,
   WsResponseEnvelope
 } from './types'
-import { isAuthAllowed } from './router'
+import { isAuthAllowed, resolveRequestToken } from './router'
 
 function success(id: string, data: unknown): WsResponseEnvelope {
   return { id, ok: true, data }
@@ -81,7 +81,7 @@ export async function handleWebSocketMessage(message: string, service: KvService
 }
 
 export function handleWebSocketUpgrade(request: Request, env: WorkerEnv, service = new WorkerKvService(env.REDIS_KV)): Response {
-  if (!isAuthAllowed(request.headers.get('authorization'), env)) {
+  if (!isAuthAllowed(resolveRequestToken(request), env)) {
     return new Response('Unauthorized', { status: 401 })
   }
 

@@ -4,6 +4,9 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-04-03",
   "workers_dev": true,
+  "alias": {
+    "hono": "./node_modules/hono"
+  },
   "kv_namespaces": [
     {
       "binding": "REDIS_KV"
