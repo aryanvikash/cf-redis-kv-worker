@@ -6,6 +6,8 @@ This Worker exposes a Redis-like HTTP and WebSocket API on top of Cloudflare KV.
 
 ## Deploy
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/aryanvikash/cf-redis-kv-worker)
+
 Use Cloudflare's deploy button with your public template repo URL:
 
 ```md
