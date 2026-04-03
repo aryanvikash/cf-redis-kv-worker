@@ -3,11 +3,10 @@
   "name": "cf-redis-kv-worker",
   "main": "src/index.ts",
   "compatibility_date": "2026-04-03",
+  "workers_dev": true,
   "kv_namespaces": [
     {
-      "binding": "REDIS_KV",
-      "id": "replace-with-production-kv-id",
-      "preview_id": "replace-with-preview-kv-id"
+      "binding": "REDIS_KV"
     }
   ],
   "vars": {
