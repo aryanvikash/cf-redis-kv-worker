@@ -7,6 +7,20 @@
   "alias": {
     "hono": "./node_modules/hono"
   },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PUBSUB_DO",
+        "class_name": "ChannelPubSubDurableObject"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["ChannelPubSubDurableObject"]
+    }
+  ],
   "kv_namespaces": [
     {
       "binding": "REDIS_KV"

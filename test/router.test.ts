@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { handleHttpRequest } from '../src/router'
-import { MemoryKV } from './helpers'
+import { MemoryKV, MemoryPubSubNamespace } from './helpers'
 import type { WorkerEnv } from '../src/types'
 
 const env = (kv = new MemoryKV()): WorkerEnv => ({
   REDIS_KV: kv,
+  PUBSUB_DO: new MemoryPubSubNamespace(),
   AUTH_TOKEN: 'secret'
 })
 
@@ -41,5 +42,22 @@ describe('handleHttpRequest', () => {
         ttlMs: null
       }
     })
+  })
+
+  it('publishes messages through the durable object endpoint', async () => {
+    const response = await handleHttpRequest(new Request('https://worker.example.com/publish', {
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer secret',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        channel: 'updates',
+        message: 'hello'
+      })
+    }), env())
+
+    expect(response.status).toBe(200)
+    expect(await response.json()).toEqual({ receivers: 0 })
   })
 })

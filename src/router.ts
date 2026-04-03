@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { WorkerKvService } from './kv'
+import { handlePubSubUpgrade, publishToChannel } from './pubsub'
 import { handleWebSocketUpgrade } from './ws'
 import type {
   WorkerBatchGetResponse,
@@ -8,6 +9,8 @@ import type {
   WorkerExistsResponse,
   WorkerGetResponse,
   WorkerMSetRequest,
+  WorkerPublishRequest,
+  WorkerPublishResponse,
   WorkerPersistResponse,
   WorkerSetRequest,
   WorkerSetResponse,
@@ -139,7 +142,19 @@ export function createApp(): Hono<AppContext> {
     return c.json(response)
   })
 
+  app.post('/publish', async (c) => {
+    const body = await c.req.json() as WorkerPublishRequest
+    const response = await publishToChannel(body.channel, body.message, c.env)
+
+    if (!response.ok) {
+      return c.json(await response.json() as { error: string }, response.status as 400 | 401 | 403 | 404 | 409 | 422 | 500 | 503)
+    }
+
+    return c.json(await response.json() as WorkerPublishResponse)
+  })
+
   app.get('/ws', (c) => handleWebSocketUpgrade(c.req.raw, c.env, c.get('service') as WorkerKvService))
+  app.get('/pubsub/ws', (c) => handlePubSubUpgrade(c.req.raw, c.env))
 
   app.notFound((c) => c.json({ error: 'Not found' }, 404))
 
