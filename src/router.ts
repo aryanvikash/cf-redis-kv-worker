@@ -27,7 +27,7 @@ function isAuthAllowed(token: string | null, env: WorkerEnv): boolean {
   }
 
   if (!env.AUTH_TOKEN) {
-    return true
+    return false
   }
 
   return token === `Bearer ${env.AUTH_TOKEN}`

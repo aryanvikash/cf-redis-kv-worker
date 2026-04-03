@@ -20,6 +20,8 @@ For a public template repo, keep `wrangler.jsonc` portable:
 - `workers_dev` is enabled so the deployment gets a `*.workers.dev` URL
 - `ALLOW_UNAUTHENTICATED` defaults to `false`
 
+To prompt for a token during deploy, this template includes `.env.example` with `AUTH_TOKEN`. Cloudflare can use that to collect a secret value during setup.
+
 ## What it provides
 
 - HTTP endpoints for `get`, `set`, `mget`, `mset`, `delete`, `exists`, `expire`, `ttl`, `persist`, and `type`
@@ -39,6 +41,8 @@ Recommended production setup:
 - keep `ALLOW_UNAUTHENTICATED=false`
 - add `AUTH_TOKEN` as a Worker secret
 - send `Authorization: Bearer <token>` from the client
+
+If `ALLOW_UNAUTHENTICATED` is `false` and `AUTH_TOKEN` is not set, the Worker now fails closed and rejects requests.
 
 Set the secret with Wrangler:
 
