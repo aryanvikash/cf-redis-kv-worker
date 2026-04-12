@@ -74,10 +74,11 @@ import { Redis } from 'cf-ioredis'
 
 const redis = new Redis({
   url: 'cfkv://YOUR_TOKEN@your-worker.your-subdomain.workers.dev',
-  transport: 'ws',
-  wsUrl: 'wss://your-worker.your-subdomain.workers.dev/ws'
+  transport: 'ws'
 })
 ```
+
+The client derives the WebSocket URL from the Worker URL. Pass `wsUrl` only when using a custom WebSocket route.
 
 Pub/sub example:
 
@@ -85,13 +86,11 @@ Pub/sub example:
 import { Redis } from 'cf-ioredis'
 
 const publisher = new Redis({
-  url: 'cfkv://YOUR_TOKEN@your-worker.your-subdomain.workers.dev',
-  wsUrl: 'wss://your-worker.your-subdomain.workers.dev/ws'
+  url: 'cfkv://YOUR_TOKEN@your-worker.your-subdomain.workers.dev'
 })
 
 const subscriber = new Redis({
-  url: 'cfkv://YOUR_TOKEN@your-worker.your-subdomain.workers.dev',
-  wsUrl: 'wss://your-worker.your-subdomain.workers.dev/ws'
+  url: 'cfkv://YOUR_TOKEN@your-worker.your-subdomain.workers.dev'
 })
 
 subscriber.on('message', (channel, message) => {
