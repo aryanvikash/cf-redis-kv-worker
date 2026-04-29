@@ -6,7 +6,13 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "vitest run"
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky || true"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,md,yml,yaml,jsonc}": "prettier --write"
   },
   "dependencies": {
     "hono": "^4.8.3"
@@ -14,6 +20,9 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260402.0",
     "@types/node": "^24.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
     "typescript": "^5.8.3",
     "vitest": "^3.1.1",
     "wrangler": "^4.10.0"

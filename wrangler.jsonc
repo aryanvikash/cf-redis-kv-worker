@@ -10,8 +10,8 @@
   "durable_objects": {
     "bindings": [
       {
-        "name": "PUBSUB_DO",
-        "class_name": "ChannelPubSubDurableObject"
+        "name": "NAMESPACE",
+        "class_name": "NamespaceDO"
       }
     ]
   },
@@ -19,14 +19,15 @@
     {
       "tag": "v1",
       "new_sqlite_classes": ["ChannelPubSubDurableObject"]
-    }
-  ],
-  "kv_namespaces": [
+    },
     {
-      "binding": "REDIS_KV"
+      "tag": "v2",
+      "deleted_classes": ["ChannelPubSubDurableObject"],
+      "new_sqlite_classes": ["NamespaceDO"]
     }
   ],
   "vars": {
-    "ALLOW_UNAUTHENTICATED": "false"
+    "ALLOW_UNAUTHENTICATED": "false",
+    "DEFAULT_NAMESPACE": "default"
   }
 }

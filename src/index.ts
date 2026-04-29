@@ -1,5 +1,6 @@
 import { createApp } from './router'
-export { ChannelPubSubDurableObject } from './pubsub'
+
+export { NamespaceDO } from './namespace-do'
 
 const app = createApp()
 
