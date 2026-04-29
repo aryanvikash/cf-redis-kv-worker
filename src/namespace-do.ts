@@ -426,10 +426,11 @@ export class NamespaceDO {
 
   private readEntry(key: string): KeyEntry {
     const now = Date.now()
-    const row = this.state.storage.sql
+    const rows = this.state.storage.sql
       .exec<KvRow>(`SELECT value, expires_at FROM kv WHERE key = ?`, key)
-      .one()
+      .toArray()
 
+    const row = rows[0]
     if (!row) return { value: null, ttlMs: null }
 
     if (row.expires_at !== null && row.expires_at <= now) {
